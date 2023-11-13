@@ -41,7 +41,7 @@ contract UniswapV3Pool {
     constructor(address token0_, address token1_, uint160 sqrtPriceX96_, int24 tick_) {
         token0 = token0_;
         token1 = token1_;
-        slot0 = Slot0({sqrtPriceX96: sqrtPriceX96_, tick:tick_});
+        slot0 = Slot0({sqrtPriceX96: sqrtPriceX96_, tick: tick_});
     }
 
     function mint(address owner, int24 lowerTick, int24 upperTick, uint128 amount) external returns (uint256 amount0, uint256 amount1) {

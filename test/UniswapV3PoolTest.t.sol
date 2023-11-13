@@ -102,6 +102,11 @@ contract UniswapV3PoolTest is Test {
         (bool upperTickInitialized, uint128 upperTickLiquidity) = pool.ticks(params.upperTick);
         assertTrue(upperTickInitialized);
         assertEq(upperTickLiquidity, params.liquidity);
+
+        (uint160 sqrtPriceX96, int24 tick) = pool.slot0();
+        assertEq(sqrtPriceX96, 5602277097478614198912276234240, "invalid sqrtPrice");
+        assertEq(tick, 85176, "invalid tick");
+        assertEq(pool.liquidity(), 1517882343751509868544, "invalid liquidity");
     }
 
     function testMintInvalidLowerTickRange() public {
