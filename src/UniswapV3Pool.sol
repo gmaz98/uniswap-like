@@ -8,6 +8,8 @@ import {IERC20} from "src/interfaces/IERC20.sol";
 import "src/interfaces/IUniswapV3MintCallback.sol";
 import "src/interfaces/IUniswapV3SwapCallback.sol";
 import {TickBitmap} from "src/lib/TickBitmap.sol";
+import {Math} from "src/lib/Math.sol";
+import {TickMath} from "src/lib/TickMath.sol";
 
 contract UniswapV3Pool {
     error InvalidTickRange();
@@ -104,9 +106,18 @@ contract UniswapV3Pool {
         );
         position.update(amount);
 
-        //hardcoded values calculated through math
-        amount0 = 0.998976618347425280 ether;
-        amount1 = 5000 ether;
+        Slot0 memory slot0_ = slot0;
+
+        amount0 = Math.calcAmount0Delta(
+            slot0_.sqrtPriceX96,
+            TickMath.getSqrtRatioAtTick(upperTick),
+            amount
+        );
+        amount1 = Math.calcAmount1Delta(
+            slot0_.sqrtPriceX96,
+            TickMath.getSqrtRatioAtTick(lowerTick),
+            amount
+        );
 
         liquidity += amount;
 
